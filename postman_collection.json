@@ -1,0 +1,513 @@
+{
+  "info": {
+    "name": "Online Course Management API",
+    "description": "Complete API collection for Admin and Student management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Teachers",
+      "item": [
+        {
+          "name": "Create Teacher (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dr. Ada\",\n  \"email_id\": \"ada@demo.local\",\n  \"password\": \"teacher123\"\n}"
+            },
+            "url": {"raw": "{{base_url}}/teachers/", "host": ["{{base_url}}"], "path": ["teachers", ""]}
+          }
+        },
+        {"name": "List Teachers", "request": {"method": "GET", "header": [], "url": {"raw": "{{base_url}}/teachers/", "host": ["{{base_url}}"], "path": ["teachers", ""]}}}
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Create Course (admin/teacher)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Python Programming\",\n  \"category\": \"Python\",\n  \"level\": \"beginner\",\n  \"description\": \"Intro to Python\",\n  \"tags\": [\"python\", \"basics\"],\n  \"thumbnail_url\": null,\n  \"intro_video_url\": null,\n  \"instructor_uuid\": \"{{teacher_uuid}}\",\n  \"co_instructor_uuids\": []\n}"
+            },
+            "url": {"raw": "{{base_url}}/courses/", "host": ["{{base_url}}"], "path": ["courses", ""]}
+          }
+        },
+        {"name": "List Courses", "request": {"method": "GET", "header": [], "url": {"raw": "{{base_url}}/courses/", "host": ["{{base_url}}"], "path": ["courses", ""]}}},
+        {"name": "Get Course Outline", "request": {"method": "GET", "header": [], "url": {"raw": "{{base_url}}/courses/{{course_key}}/outline", "host": ["{{base_url}}"], "path": ["courses", "{{course_key}}", "outline"]}}}
+      ]
+    },
+    {
+      "name": "Topics",
+      "item": [
+        {
+          "name": "Create Topic (admin/teacher)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"title\": \"Introduction\",\n  \"description\": \"Course intro\"\n}"},
+            "url": {"raw": "{{base_url}}/topics/course/{{course_uuid}}", "host": ["{{base_url}}"], "path": ["topics", "course", "{{course_uuid}}"]}
+          }
+        },
+        {"name": "List Topics", "request": {"method": "GET", "header": [], "url": {"raw": "{{base_url}}/topics/course/{{course_uuid}}", "host": ["{{base_url}}"], "path": ["topics", "course", "{{course_uuid}}"]}}}
+      ]
+    },
+    {
+      "name": "Videos",
+      "item": [
+        {
+          "name": "Create Video (admin/teacher)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"title\": \"Welcome\",\n  \"description\": \"Welcome video\",\n  \"video_url\": \"https://example.com/welcome.mp4\",\n  \"duration_seconds\": 180\n}"},
+            "url": {"raw": "{{base_url}}/videos/topic/{{topic_uuid}}", "host": ["{{base_url}}"], "path": ["videos", "topic", "{{topic_uuid}}"]}
+          }
+        },
+        {"name": "List Videos", "request": {"method": "GET", "header": [], "url": {"raw": "{{base_url}}/videos/topic/{{topic_uuid}}", "host": ["{{base_url}}"], "path": ["videos", "topic", "{{topic_uuid}}"]}}}
+      ]
+    },
+    {
+      "name": "Comments",
+      "item": [
+        {
+          "name": "Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {"mode": "raw", "raw": "{\n  \"parent_type\": \"video\",\n  \"parent_uuid\": \"{{video_uuid}}\",\n  \"content\": \"Great lesson!\"\n}"},
+            "url": {"raw": "{{base_url}}/comments/", "host": ["{{base_url}}"], "path": ["comments", ""]}
+          }
+        },
+        {"name": "List Video Comments", "request": {"method": "GET", "header": [], "url": {"raw": "{{base_url}}/comments/video/{{video_uuid}}", "host": ["{{base_url}}"], "path": ["comments", "video", "{{video_uuid}}"]}}}
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Device-Name",
+                "value": "Admin Laptop",
+                "description": "Optional device label"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_id\": \"admin@test.com\",\n  \"password\": \"admin123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Student Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Device-Name",
+                "value": "Student Phone",
+                "description": "Optional device label"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email_id\": \"john@test.com\",\n  \"password\": \"student123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sessions",
+      "item": [
+        {
+          "name": "List Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/sessions",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "sessions"]
+            }
+          }
+        },
+        {
+          "name": "Logout Current",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          }
+        },
+        {
+          "name": "Logout All",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/logout-all",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout-all"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Create Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"college_name\": \"Test University\",\n  \"email_id\": \"admin@test.com\",\n  \"password\": \"admin123456\",\n  \"total_student_allow_count\": 100\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/",
+              "host": ["{{base_url}}"],
+              "path": ["admin", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Admins",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/",
+              "host": ["{{base_url}}"],
+              "path": ["admin", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Admin by UUID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/{{admin_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "{{admin_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Admin",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"college_name\": \"Updated University\",\n  \"total_student_allow_count\": 150\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/{{admin_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "{{admin_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Admin",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/admin/{{admin_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "{{admin_uuid}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student",
+      "item": [
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_name\": \"John Doe\",\n  \"department\": \"Computer Science\",\n  \"email_id\": \"john@test.com\",\n  \"password\": \"student123456\",\n  \"sub_department\": \"Artificial Intelligence\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/student/",
+              "host": ["{{base_url}}"],
+              "path": ["student", ""]
+            }
+          }
+        },
+        {
+          "name": "Get All Students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/student/",
+              "host": ["{{base_url}}"],
+              "path": ["student", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Student by UUID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/student/{{student_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["student", "{{student_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_name\": \"John Doe Updated\",\n  \"sub_department\": \"Machine Learning\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/student/{{student_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["student", "{{student_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Student",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/student/{{student_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["student", "{{student_uuid}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "Upload New Video to Topic (admin/teacher)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "file", "type": "file", "src": ""}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/uploads/video/topic/{{topic_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["uploads", "video", "topic", "{{topic_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Replace Existing Video File (admin/teacher)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "file", "type": "file", "src": ""}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/uploads/video/{{video_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["uploads", "video", "{{video_uuid}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Media",
+      "item": [
+        {
+          "name": "Get Playback Config",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/media/video/{{video_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["media", "video", "{{video_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Stream Uploaded File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{access_token}}"}
+            ],
+            "url": {
+              "raw": "{{base_url}}/media/file/{{video_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["media", "file", "{{video_uuid}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "admin_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "student_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "teacher_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "course_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "course_key",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "topic_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "video_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

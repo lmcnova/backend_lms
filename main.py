@@ -23,7 +23,7 @@ app = FastAPI(
 )
 
 # ✅ Create a root router (no `/api` prefix — routes are mounted at root)
-api_router = APIRouter()
+api_router = APIRouter(prefix="/api")
 
 # ✅ Add all sub-routers to the API router
 api_router.include_router(auth.router)

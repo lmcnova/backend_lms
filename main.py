@@ -23,7 +23,7 @@ app = FastAPI(
 )
 
 # ✅ Create a root router (no `/api` prefix — routes are mounted at root)
-api_router = APIRouter(prefix="/api")
+api_router = APIRouter()
 
 # ✅ Add all sub-routers to the API router
 api_router.include_router(auth.router)
@@ -43,7 +43,7 @@ api_router.include_router(uploads.router)
 api_router.include_router(departments.router)
 
 # ✅ Mount the API router to the app
-app.include_router(api_router)
+app.include_router(api_router, prefix="/api")
 
 # Configure CORS
 origins = [
